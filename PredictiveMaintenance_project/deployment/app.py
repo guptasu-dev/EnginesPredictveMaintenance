@@ -15,7 +15,7 @@ sensor readings. Please enter the sensor data below to get a prediction.
 """)
 
 # User input
-engine_rpm = st.number_input("Engine RPM", min_value=0.0, max_value=3000.0, value=750.0, step=1.0)
+engine_rpm = st.number_input("Engine RPM", min_value=0.0, max_value=3000.0, value=750.0, step=10.0)
 lub_oil_pressure = st.number_input("Lub Oil Pressure (bar)", min_value=0.0, max_value=10.0, value=3.3, step=0.1)
 fuel_pressure = st.number_input("Fuel Pressure (bar)", min_value=0.0, max_value=25.0, value=6.6, step=0.1)
 coolant_pressure = st.number_input("Coolant Pressure (bar)", min_value=0.0, max_value=10.0, value=2.3, step=0.1)
@@ -36,8 +36,10 @@ input_data = pd.DataFrame([{
 if st.button("Predict Engine Condition"):
     prediction = model.predict(input_data)[0]
     result = "Faulty" if prediction == 1 else "Normal"
+
     st.subheader("Prediction Result:")
-    if prediction == 1:
-        st.error(f"The model predicts: **{result}**")
+
+    if result == "Faulty":
+        st.error(f"The model predicts engine is: **{result}**")
     else:
-        st.success(f"The model predicts: **{result}**")
+        st.success(f"The model predicts engine is: **{result}**")
